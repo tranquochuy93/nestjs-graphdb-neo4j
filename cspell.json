@@ -1,0 +1,13 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        "nestjs",
+        "typeorm",
+        "tsvector",
+        "tsquery",
+        "mjml"
+    ],
+    "flagWords": ["hte"],
+    "ignorePaths": ["node_modules/**", "src/migration"]
+}
