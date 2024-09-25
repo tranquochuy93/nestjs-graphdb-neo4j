@@ -35,7 +35,7 @@ ADD --chown=neo4j:neo4j ${APOC_URI} plugins
 
 # COPY extension_script.sh /extension_script.sh
 # ENV EXTENSION_SCRIPT=/extension_script.sh
-# ENV EXTENSION_SCRIPT=import.sh
+ENV EXTENSION_SCRIPT=import.sh
 ENV NEO4J_dbms_active__database=flights.db
 ENV NEO4J_AUTH=neo4j/Secret@123
 

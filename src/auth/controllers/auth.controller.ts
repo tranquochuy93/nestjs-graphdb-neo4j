@@ -25,11 +25,7 @@ export class AuthController {
 
         const user = await this.userService.create(
             transaction,
-            createUserDto.email,
-            createUserDto.password,
-            new Date(createUserDto.dateOfBirth),
-            createUserDto.firstName,
-            createUserDto.lastName
+            createUserDto
         )
 
         await this.subscriptionService.createSubscription(transaction, user, '1', 7, STATUS_ACTIVE)

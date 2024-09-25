@@ -6,7 +6,9 @@
         "typeorm",
         "tsvector",
         "tsquery",
-        "mjml"
+        "mjml",
+        "neo4j",
+        "datetime"
     ],
     "flagWords": ["hte"],
     "ignorePaths": ["node_modules/**", "src/migration"]

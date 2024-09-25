@@ -19,21 +19,21 @@ export class SubscriptionService {
     async createSubscription(databaseOrTransaction: string | Transaction, user: User, planId: string, days: number = null, status: SubscriptionStatus = STATUS_PENDING, orderId: string = null): Promise<Subscription> {
         const userId: string = user.getId()
         const res = await this.neo4jService.write(`
-            MATCH (u:User {id: $userId})
-            MATCH (p:Plan {id: $planId})
-            CREATE (u)-[:PURCHASED]->(s:Subscription {
-                id: randomUUID(),
-                status: $status,
-                orderId: $orderId,
-                expiresAt: datetime() + CASE WHEN $days IS NOT NULL
-                    THEN duration('P'+ $days +'D')
-                    ELSE p.duration END,
-                renewsAt: datetime() + CASE WHEN $days IS NOT NULL
-                    THEN duration('P'+ $days +'D')
-                    ELSE p.duration END
-            })-[:FOR_PLAN]->(p)
-            RETURN s
-        `, { userId, planId, days, status, orderId }, databaseOrTransaction)
+                MATCH (u:User {id: $userId})
+                MATCH (p:Plan {id: $planId})
+                CREATE (u)-[:PURCHASED]->(s:Subscription {
+                    id: randomUUID(),
+                    status: $status,
+                    orderId: $orderId,
+                    expiresAt: datetime() + CASE WHEN $days IS NOT NULL
+                        THEN duration('P'+ $days +'D')
+                        ELSE p.duration END,
+                    renewsAt: datetime() + CASE WHEN $days IS NOT NULL
+                        THEN duration('P'+ $days +'D')
+                        ELSE p.duration END
+                })-[:FOR_PLAN]->(p)
+                RETURN s
+        `, { userId, planId: '1', days, status, orderId: '1' }, databaseOrTransaction)
 
         return res.records[0].get('s')
     }

@@ -5,6 +5,7 @@ import { User } from '../entities/user.entity';
 import { STATUS_ACTIVE } from '../../subscriptions/services/subscription.service';
 import { Subscription } from '../../subscriptions/entities/subscription.entity';
 import { compare, hash } from 'bcrypt';
+import { CreateUserDto } from '~users/dtos/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -45,7 +46,7 @@ export class UserService {
         return this.hydrate(res)
     }
 
-    async create(databaseOrTransaction: string | Transaction, email: string, password: string, dateOfBirth: Date, firstName?: string, lastName?: string): Promise<User> {
+    async create(databaseOrTransaction: string | Transaction, createUserDto: CreateUserDto): Promise<User> {
         const res = await this.neo4jService.write(`
             CREATE (u:User)
             SET u += $properties, u.id = randomUUID()
@@ -53,11 +54,9 @@ export class UserService {
                 [ (u)-[:PURCHASED]->(s)-[:FOR_PLAN]->(p) WHERE s.expiresAt > datetime() AND s.status = $status | {subscription: s, plan: p } ][0] As subscription
         `, {
             properties: {
-                email,
-                password: await this.hash(password),
-                dateOfBirth: types.Date.fromStandardDate(dateOfBirth),
-                firstName,
-                lastName,
+                ...createUserDto,
+                dateOfBirth: new Date(createUserDto.dateOfBirth),
+                password: await this.hash(createUserDto.password),
             },
             status: STATUS_ACTIVE,
         }, databaseOrTransaction)

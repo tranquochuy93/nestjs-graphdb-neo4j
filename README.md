@@ -1,18 +1,26 @@
-# NESTJS-PLATFORM
+# NESTJS-NEO4J
 
-### Install package
+
+## Install package
 ```bash
 npm i
 ```
 
-### Start docker compose
+## Start docker
 ```bash
-docker-compose up
+docker build .
+
+docker run -it --rm -p 7474:7474 -p 7687:7687 ${image_id}
 ```
 
-### Start app
+## Start app
 ```bash
 npm run start:dev
+```
+
+## Access to neo4j at
+```bash
+http://localhost:7474/
 ```
 
 ### import
